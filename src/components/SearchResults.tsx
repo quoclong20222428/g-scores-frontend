@@ -1,50 +1,94 @@
 import { CheckCircle2, AlertCircle } from "lucide-react";
-
-interface ScoreData {
-  sbd: string;
-  toan?: number;
-  ngu_van?: number;
-  ngoai_ngu?: number;
-  vat_li?: number;
-  hoa_hoc?: number;
-  sinh_hoc?: number;
-  lich_su?: number;
-  dia_li?: number;
-  gdcd?: number;
-  ma_ngoai_ngu?: string;
-}
+import type { ScoreData } from "../api/api";
 
 interface SearchResultsProps {
   data?: ScoreData;
   loading?: boolean;
   error?: string;
   hasSearched?: boolean;
-  showSampleData?: boolean;
 }
+
+// Block score configuration
+interface BlockScoreConfig {
+  label: string;
+  key: keyof ScoreData;
+  bgGradient: string;
+  textColor: string;
+  borderColor: string;
+}
+
+const BLOCK_SCORES: BlockScoreConfig[] = [
+  {
+    label: "Block A",
+    key: "tongDiemKhoiA",
+    bgGradient: "from-purple-50 to-purple-100",
+    textColor: "text-purple-600",
+    borderColor: "border-purple-200",
+  },
+  {
+    label: "Block B",
+    key: "tongDiemKhoiB",
+    bgGradient: "from-green-50 to-green-100",
+    textColor: "text-green-600",
+    borderColor: "border-green-200",
+  },
+  {
+    label: "Block C",
+    key: "tongDiemKhoiC",
+    bgGradient: "from-amber-50 to-amber-100",
+    textColor: "text-amber-600",
+    borderColor: "border-amber-200",
+  },
+  {
+    label: "Block D",
+    key: "tongDiemKhoiD",
+    bgGradient: "from-red-50 to-red-100",
+    textColor: "text-red-600",
+    borderColor: "border-red-200",
+  },
+];
+
+// Render block scores section
+const renderBlockScores = (data: ScoreData) => {
+  const blockScores = BLOCK_SCORES.filter((block) => {
+    const value = data[block.key];
+    return value !== null && value !== undefined;
+  });
+
+  if (blockScores.length === 0) {
+    return null;
+  }
+
+  return (
+    <div>
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">Block Totals</h3>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {blockScores.map((block) => {
+          const value = data[block.key];
+          return (
+            <div
+              key={block.key}
+              className={`bg-linear-to-br ${block.bgGradient} rounded-lg p-4 border ${block.borderColor}`}
+            >
+              <p className="text-xs font-medium text-gray-600 mb-1">{block.label}</p>
+              <p className={`text-2xl font-bold ${block.textColor}`}>
+                {typeof value === "number" ? value.toFixed(2) : "N/A"}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 const SearchResults = ({
   data,
   loading = false,
   error,
   hasSearched = false,
-  showSampleData = false,
 }: SearchResultsProps) => {
-  // Sample data for demonstration
-  const sampleData: ScoreData = {
-    sbd: "01000001",
-    toan: 8.4,
-    ngu_van: 6.75,
-    ngoai_ngu: 8.0,
-    vat_li: 6.0,
-    hoa_hoc: 5.25,
-    sinh_hoc: 5.0,
-    ma_ngoai_ngu: "N1",
-  };
-
-  // Use sample data if showSampleData is true
-  const displayData = showSampleData ? sampleData : data;
-
-  if (!hasSearched && !showSampleData) {
+  if (!hasSearched) {
     return null;
   }
 
@@ -73,7 +117,7 @@ const SearchResults = ({
     );
   }
 
-  if (!displayData) {
+  if (!data) {
     return (
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
         <div className="flex items-center gap-3">
@@ -104,11 +148,11 @@ const SearchResults = ({
   ];
 
   // Get language code if available
-  const languageCode = displayData.ma_ngoai_ngu || "";
+  const languageCode = data.ma_ngoai_ngu || "";
 
   // Filter subjects that have data
   const filledSubjects = subjects.filter((subject) => {
-    const value = displayData[subject.key as keyof ScoreData];
+    const value = data[subject.key as keyof ScoreData];
     return value !== null && value !== undefined && value !== "";
   });
 
@@ -116,7 +160,7 @@ const SearchResults = ({
   const scoreValues = filledSubjects
     .filter((s) => s.key !== "sbd")
     .map((s) => {
-      const value = displayData[s.key as keyof ScoreData];
+      const value = data[s.key as keyof ScoreData];
       return typeof value === "number" ? value : 0;
     });
   const totalScore =
@@ -139,7 +183,7 @@ const SearchResults = ({
         {/* Registration Number */}
         <div className="mb-8 pb-6 border-b border-gray-200">
           <p className="text-sm text-gray-600 mb-2">Registration Number</p>
-          <p className="text-2xl font-bold text-gray-900">{displayData.sbd}</p>
+          <p className="text-2xl font-bold text-gray-900">{data.sbd}</p>
           {languageCode && (
             <p className="text-sm text-gray-600 mt-2">
               Foreign Language: <span className="font-semibold">{languageCode}</span>
@@ -154,7 +198,7 @@ const SearchResults = ({
             {filledSubjects
               .filter((s) => s.key !== "sbd")
               .map((subject) => {
-                const value = displayData[subject.key as keyof ScoreData];
+                const value = data[subject.key as keyof ScoreData];
                 const score = typeof value === "number" ? value : 0;
                 return (
                   <div
@@ -172,13 +216,16 @@ const SearchResults = ({
         </div>
 
         {/* Average Score */}
-        <div className="bg-linear-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+        <div className="bg-linear-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white mb-8">
           <p className="text-sm font-medium text-blue-100 mb-2">Average Score</p>
-          <p className="text-4xl font-bold">{totalScore}</p>
+          <p className="text-4xl font-bold">{data.diemTrungBinh?.toFixed(2) || totalScore}</p>
           <p className="text-xs text-blue-100 mt-2">
             Based on {scoreValues.length} subject{scoreValues.length !== 1 ? "s" : ""}
           </p>
         </div>
+
+        {/* Block Scores */}
+        {renderBlockScores(data)}
       </div>
     </div>
   );

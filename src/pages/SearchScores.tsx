@@ -1,20 +1,9 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import Searchbar from "../components/Searchbar";
 import SearchResults from "../components/SearchResults";
-
-interface ScoreData {
-  sbd: string;
-  toan?: number;
-  ngu_van?: number;
-  ngoai_ngu?: number;
-  vat_li?: number;
-  hoa_hoc?: number;
-  sinh_hoc?: number;
-  lich_su?: number;
-  dia_li?: number;
-  gdcd?: number;
-  ma_ngoai_ngu?: string;
-}
+import { scoresApi } from "../api/api";
+import type { ScoreData } from "../api/api";
 
 const SearchScores = () => {
   const [searchResults, setSearchResults] = useState<ScoreData | null>(null);
@@ -28,35 +17,18 @@ const SearchScores = () => {
     setHasSearched(true);
 
     try {
-      // TODO: Replace with actual API call
-      // const response = await fetch(`/api/scores/${registrationNumber}`);
-      // const data = await response.json();
-
-      // Mock data for demonstration
-      if (registrationNumber === "01000001") {
-        setTimeout(() => {
-          setSearchResults({
-            sbd: "01000001",
-            toan: 8.4,
-            ngu_van: 6.75,
-            ngoai_ngu: 8.0,
-            vat_li: 6.0,
-            hoa_hoc: 5.25,
-            sinh_hoc: 5.0,
-            ma_ngoai_ngu: "N1",
-          });
-          setLoading(false);
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          setSearchResults(null);
-          setError(`No scores found for registration number: ${registrationNumber}`);
-          setLoading(false);
-        }, 1000);
-      }
-    } catch (err) {
-      setError("Failed to fetch scores. Please try again.");
+      // Call API to search scores
+      const data = await scoresApi.searchBySbd(registrationNumber);
+      setSearchResults(data);
       setLoading(false);
+      toast.success("Found scores successfully!");
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Lỗi khi tìm kiếm điểm";
+      setError(errorMessage);
+      setSearchResults(null);
+      setLoading(false);
+      toast.error(errorMessage);
     }
   };
 
@@ -94,13 +66,6 @@ const SearchScores = () => {
                 error={error || undefined}
                 hasSearched={hasSearched}
               />
-            </div>
-          )}
-
-          {/* Sample Data Display */}
-          {!hasSearched && (
-            <div className="mt-12">
-              <SearchResults showSampleData={true} />
             </div>
           )}
         </div>
