@@ -57,10 +57,10 @@ export const scoresApi = {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 404) {
-          throw new Error("Không tìm thấy số báo danh này");
+          throw new Error("Registration number not found.");
         }
         throw new Error(
-          error.response?.data?.message || "Lỗi khi tìm kiếm điểm"
+          error.response?.data?.message || "Error fetching scores."
         );
       }
       throw error;

@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState } from "react";
+import { Toaster } from "sonner";
 import "./App.css";
 import Dashboard from "./pages/Dashboard";
 import SearchScores from "./pages/SearchScores";
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-right" richColors />
       <Header onToggleSidebar={toggleSidebar} />
       <div className="flex">
         <Sidebar isOpen={sidebarOpen} />

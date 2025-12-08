@@ -24,7 +24,7 @@ const SearchScores = () => {
       toast.success("Found scores successfully!");
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : "Lỗi khi tìm kiếm điểm";
+        err instanceof Error ? err.message : "Error fetching scores.";
       setError(errorMessage);
       setSearchResults(null);
       setLoading(false);
