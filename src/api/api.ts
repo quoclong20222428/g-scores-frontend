@@ -113,7 +113,7 @@ export const statisticsApi = {
       );
       return response.data.data;
     } catch (error) {
-      throw new Error("Lỗi khi lấy metadata thống kê");
+      throw new Error("Failed to fetch statistics metadata.");
     }
   },
 
@@ -133,7 +133,7 @@ export const statisticsApi = {
       );
       return response.data.data;
     } catch (error) {
-      throw new Error("Lỗi khi lấy dữ liệu thống kê");
+      throw new Error("Failed to fetch statistics data.");
     }
   },
 
@@ -149,7 +149,7 @@ export const statisticsApi = {
       );
       return response.data.data;
     } catch (error) {
-      throw new Error("Lỗi khi lấy danh sách top thí sinh");
+      throw new Error("Failed to fetch top students list.");
     }
   },
 };
