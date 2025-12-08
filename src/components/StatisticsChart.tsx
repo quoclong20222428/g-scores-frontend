@@ -83,16 +83,16 @@ export const StatisticsChart = ({
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">
+    <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
         Student Performance by Subject
       </h2>
 
-      <div className="w-full h-96">
+      <div className="w-full h-64 sm:h-80 lg:h-96 overflow-x-auto">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
-            margin={{ top: 20, right: 30, left: 0, bottom: 60 }}
+            margin={{ top: 20, right: 20, left: 0, bottom: 80 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
@@ -100,9 +100,10 @@ export const StatisticsChart = ({
               angle={-45}
               textAnchor="end"
               height={100}
+              tick={{ fontSize: 12 }}
               tickFormatter={(value) => SUBJECT_NAME_MAP[value] || value}
             />
-            <YAxis />
+            <YAxis tick={{ fontSize: 12 }} />
             <Tooltip content={<CustomTooltip scoreLevels={scoreLevels} />} />
             {barKeys.map((level) => {
               const levelConfig = scoreLevels.find((l) => l.key === level);
@@ -120,18 +121,18 @@ export const StatisticsChart = ({
       </div>
 
       {/* Legend */}
-      <div className="mt-8 flex flex-wrap justify-center gap-6">
+      <div className="mt-4 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-6">
         {selectedLevels.map((levelKey) => {
           const levelConfig = scoreLevels.find((l) => l.key === levelKey);
           return (
             <div key={levelKey} className="flex items-center gap-2">
               <div
-                className="w-4 h-4 rounded"
+                className="w-3 h-3 sm:w-4 sm:h-4 rounded"
                 style={{
                   backgroundColor: levelConfig?.color,
                 }}
               ></div>
-              <span className="text-sm text-gray-700">
+              <span className="text-xs sm:text-sm text-gray-700">
                 {levelConfig?.label}
               </span>
             </div>

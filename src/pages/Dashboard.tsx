@@ -247,32 +247,32 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="px-4 py-8 sm:py-12 lg:py-16">
+      <div className="px-3 sm:px-4 py-6 sm:py-8 lg:py-12">
         <div className="mx-auto max-w-7xl">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <TrendingUp className="text-blue-600" size={32} />
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
+          <div className="mb-6 sm:mb-8">
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <TrendingUp className="text-blue-600" size={28} />
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
                 Exam Statistics
               </h1>
             </div>
-            <p className="text-lg text-gray-600">
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600">
               Comprehensive analysis of student performance across all subjects
             </p>
           </div>
 
           {/* Filters Section */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <div className="flex items-center gap-2 mb-6">
-              <Filter size={24} className="text-blue-600" />
-              <h2 className="text-xl font-bold text-gray-900">Filters</h2>
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+            <div className="flex items-center gap-2 mb-4 sm:mb-6">
+              <Filter size={20} className="text-blue-600" />
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900">Filters</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Subjects Dropdown Filter */}
               <div>
-                <label className="block text-lg font-semibold text-gray-800 mb-3">
+                <label className="block text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-3">
                   Subjects
                 </label>
                 <div className="relative">
@@ -280,7 +280,7 @@ const Dashboard = () => {
                     onClick={() =>
                       setSubjectsDropdownOpen(!subjectsDropdownOpen)
                     }
-                    className="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-left font-medium text-gray-700 hover:border-blue-400 transition flex justify-between items-center"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg text-left text-sm sm:text-base font-medium text-gray-700 hover:border-blue-400 transition flex justify-between items-center"
                   >
                     <span>
                       {selectedSubjects.length === 0
@@ -299,17 +299,17 @@ const Dashboard = () => {
                   </button>
 
                   {subjectsDropdownOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-300 rounded-lg shadow-lg z-10">
-                      <div className="sticky top-0 bg-gray-50 border-b p-3 flex gap-2">
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-300 rounded-lg shadow-lg z-10 max-w-full">
+                      <div className="sticky top-0 bg-gray-50 border-b p-2 sm:p-3 flex gap-2">
                         <button
                           onClick={selectAllSubjects}
-                          className="flex-1 px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium hover:bg-blue-200 transition"
+                          className="flex-1 px-2 sm:px-3 py-1 bg-blue-100 text-blue-700 rounded text-xs sm:text-sm font-medium hover:bg-blue-200 transition"
                         >
                           All
                         </button>
                         <button
                           onClick={deselectAllSubjects}
-                          className="flex-1 px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium hover:bg-gray-200 transition"
+                          className="flex-1 px-2 sm:px-3 py-1 bg-gray-100 text-gray-700 rounded text-xs sm:text-sm font-medium hover:bg-gray-200 transition"
                         >
                           Clear
                         </button>
@@ -318,7 +318,7 @@ const Dashboard = () => {
                         {metadata?.subjects.map((subject) => (
                           <label
                             key={subject.key}
-                            className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 cursor-pointer border-b last:border-b-0"
+                            className="flex items-center gap-3 px-3 sm:px-4 py-2 sm:py-3 hover:bg-blue-50 cursor-pointer border-b last:border-b-0"
                           >
                             <input
                               type="checkbox"
@@ -326,7 +326,7 @@ const Dashboard = () => {
                               onChange={() => toggleSubject(subject.key)}
                               className="w-4 h-4 text-blue-600 rounded cursor-pointer"
                             />
-                            <span className="text-sm font-medium text-gray-700">
+                            <span className="text-xs sm:text-sm font-medium text-gray-700">
                               {subject.name}
                             </span>
                           </label>
@@ -345,13 +345,13 @@ const Dashboard = () => {
 
               {/* Score Levels Dropdown Filter */}
               <div>
-                <label className="block text-lg font-semibold text-gray-800 mb-3">
+                <label className="block text-sm sm:text-base font-semibold text-gray-800 mb-2 sm:mb-3">
                   Score Levels
                 </label>
                 <div className="relative">
                   <button
                     onClick={() => setLevelsDropdownOpen(!levelsDropdownOpen)}
-                    className="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-left font-medium text-gray-700 hover:border-blue-400 transition flex justify-between items-center"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg text-left text-sm sm:text-base font-medium text-gray-700 hover:border-blue-400 transition flex justify-between items-center"
                   >
                     <span>
                       {selectedLevels.length === 0
@@ -370,17 +370,17 @@ const Dashboard = () => {
                   </button>
 
                   {levelsDropdownOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-300 rounded-lg shadow-lg z-10">
-                      <div className="sticky top-0 bg-gray-50 border-b p-3 flex gap-2">
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-300 rounded-lg shadow-lg z-10 max-w-full">
+                      <div className="sticky top-0 bg-gray-50 border-b p-2 sm:p-3 flex gap-2">
                         <button
                           onClick={selectAllLevels}
-                          className="flex-1 px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium hover:bg-blue-200 transition"
+                          className="flex-1 px-2 sm:px-3 py-1 bg-blue-100 text-blue-700 rounded text-xs sm:text-sm font-medium hover:bg-blue-200 transition"
                         >
                           All
                         </button>
                         <button
                           onClick={deselectAllLevels}
-                          className="flex-1 px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm font-medium hover:bg-gray-200 transition"
+                          className="flex-1 px-2 sm:px-3 py-1 bg-gray-100 text-gray-700 rounded text-xs sm:text-sm font-medium hover:bg-gray-200 transition"
                         >
                           Clear
                         </button>
@@ -389,7 +389,7 @@ const Dashboard = () => {
                         {SCORE_LEVELS.map((level) => (
                           <label
                             key={level.key}
-                            className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 cursor-pointer border-b last:border-b-0"
+                            className="flex items-center gap-3 px-3 sm:px-4 py-2 sm:py-3 hover:bg-blue-50 cursor-pointer border-b last:border-b-0"
                           >
                             <input
                               type="checkbox"
@@ -403,7 +403,7 @@ const Dashboard = () => {
                                 backgroundColor: level.color,
                               }}
                             ></div>
-                            <span className="text-sm font-medium text-gray-700">
+                            <span className="text-xs sm:text-sm font-medium text-gray-700">
                               {level.label}
                             </span>
                           </label>
